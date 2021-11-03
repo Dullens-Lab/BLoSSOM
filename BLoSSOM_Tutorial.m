@@ -562,13 +562,14 @@ p3d(D22_LHCP); %The grain boundary points
 %angles looks like. 
 %These are probablity distributions with the area under the curves equaling
 %1.
-load('Random_Misorientation_Distributions.mat'); 
+load('Random_Disorientation_Distributions.mat'); 
 
+LW = 1; %The line width for the plot
 n = 70; %number of bins. 
 fontsz = 18;
 binnumbersHC = 0 + (56.6/(2*n)):56.6/n:56.6 - (56.6/(2*n));
-Disorientation_Angle_Histogram(D21(:,4:6), 3, 1, binnumbersHC, ...
-    D6O_rd);
+Dis_Angle_Histogram(D21(:,4:6), binnumbersHC, ...
+    D6O_r, LW);
 hold on
 xlim([0, 56.6])
 set(gca,'FontSize',fontsz)
@@ -583,8 +584,8 @@ title('HCP:FCC')
 
 n = 70;  %number of bins. 
 binnumbersCC = 0 + (62.8/(2*n)):62.8/n:62.8 - (62.8/(2*n));
-Disorientation_Angle_Histogram(D11_LFCC(:,4:6), 3, 1, binnumbersCC, ...
-    OO_rd);
+Dis_Angle_Histogram(D11_LFCC(:,4:6), binnumbersCC, ...
+    OO_r, LW);
 xlim([0, 62.8])
 set(gca,'FontSize',fontsz)
 box on 
@@ -598,8 +599,8 @@ title('FCC:FCC no HCP')
 n = 70;
 MAXA = 93.84;
 binnumbersHH = 0 + (MAXA/(2*n)):MAXA/n:MAXA - (MAXA/(2*n));
-Angrr33_50mil = Disorientation_Angle_Histogram(D22_LHCP(:,4:6), 3, 3,...
-    binnumbersHH, D6D6_rd); 
+Dis_Angle_Histogram(D22_LHCP(:,4:6), binnumbersHH,...
+    D6D6_r, LW); 
 xlim([0, MAXA])
 set(gca,'FontSize',fontsz)
 box on
