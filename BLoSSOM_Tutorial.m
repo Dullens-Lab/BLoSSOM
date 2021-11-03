@@ -142,13 +142,13 @@ figure;
 subplot(2, 1, 1)
 histogram(fitT(structcode == 1 & fitT >= 0),0:0.01:1, 'facecolor','green')
 %note structcode == 1 is for FCC
-xlabel('RMS displacement of registered points')
+xlabel('RMS displacement of registered points, FCC')
 ylabel('number')
 set(gca, 'fontsize', 18)
 subplot(2, 1, 2)
 histogram(fitT(structcode == 2 & fitT >= 0),0:0.01:1, 'facecolor','red')
 %note structcode == 2 is for HCP
-xlabel('RMS displacement of registered points')
+xlabel('RMS displacement of registered points, HCP')
 ylabel('number')
 set(gca, 'fontsize', 18)
 
