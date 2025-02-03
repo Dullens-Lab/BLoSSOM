@@ -1,22 +1,45 @@
 function [ data_out, color_out ] = Angle_Colour_Sensitive( data, minmax, Ncolour_bins, pmode, tick, markersize)
+%Changes made by merin
 %NAME: RGB_Colour
 %Function: 
-%   plot quantities by RGB values related to thier quantity.
+%   plot quantities by RGB values related to their quantity.
 %INPUTS:
-%   data - xyzR1R2R3 in an n by 6 array. columns 1 to 3 are the coordinates
-%   in physical space and columns 4 to 6 are the RF values 1 to 3.
+%   data - xyzR1R2R3AB in an n by 8 array. columns 1 to 3 are the coordinates
+%   in physical space and columns 4 to 6 are the RF values 1 to 3. The last
+%   two columns if A,B = 1,1, then FCC-FCC, 
+%               if A,B = 2,2, then HCP-HCP, 
+%               if A,B = 1,2, then HCP-FCC
 %   Ncolor bins, the maximum number of color bins. 
 %   pmode - 1 for real space plot, 2 for orientation space plot, 0 for no
 %   plot
 %   tick - string input for the plot marker, same as conventional matlab
 %   inputs
 %   markersize - the size of the marke in pixels
-
+%UPDATES:
+%   Merin 16 Oct 2024: Included the conditional angle computation,
+%   considering the HCP-FCC misorientations as well. For this, make sure
+%   your data input has all the 8 columns.
 
 cbin = 1/Ncolour_bins;
 %cbiny = rangey/Ncolour_bins;
 %cbinz = rangez/Ncolour_bins;
-L = atand(sqrt(sum(data(:,4:6).^2,2))) * 2; %/max;
+
+L = zeros(size(data, 1), 1); %%to store the angles
+
+% Considering HCP-FCC misorientations as well
+for i = 1:size(data, 1)
+    if data(i, 7) == data(i, 8)
+        % If the 7th and 8th columns are identical, that is, FCC-FCC and
+        % HCP-HCP cases, calculate as usual
+        L(i) = atand(sqrt(sum(data(i, 4:6).^2))) * 2;
+    else
+        % If the 7th and 8th columns are different, that is, HCP-FCC case,
+        % compute the difference of the angle from the theoretical
+        % misorientation angle of 56.6
+        L(i) = abs(56.6 - (atand(sqrt(sum(data(i, 4:6).^2))) * 2));
+    end
+end
+
 L(L<minmax(1)) = minmax(1);
 L(L>minmax(2)) = minmax(2);
 L = L-minmax(1);
