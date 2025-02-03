@@ -1,5 +1,4 @@
 function [ data_out, color_out ] = Angle_Colour_Sensitive( data, minmax, Ncolour_bins, pmode, tick, markersize)
-%Changes made by merin
 %NAME: RGB_Colour
 %Function: 
 %   plot quantities by RGB values related to their quantity.
